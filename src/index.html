@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>MyToDo</title>
+</head>
+
+<body class="container">
+  <header class="header">
+    <div class="header-container"><a href="#" class="logo">MyToDo</a></div>
+    <form class="form">
+      <input type="text" class="form__input" name="input" placeholder="search by title" />
+      <select class="form__progress-select select--progress" name="done">
+        <option value="all">All</option>
+        <option value="open">Open</option>
+        <option value="done">Done</option>
+      </select>
+      <select class="form__priority-select select--priority" name="priority">
+        <option value="all">All</option>
+        <option value="high">High</option>
+        <option value="normal">Normal</option>
+        <option value="low">Low</option>
+      </select>
+      <button type="button" class="button create-btn" data-action="add-note">
+        Create
+      </button>
+    </form>
+  </header>
+
+  <main>
+    <ul class="note-list"></ul>
+
+    <div class="backdrop">
+      <div class="modal">
+        <form class="modal-form">
+          <p class="modal-form__title">Title:</p>
+          <input type="text" class="modal-form__input" placeholder="Title" />
+          <p class="modal-form__title">Description:</p>
+          <textarea class="modal-form__textarea" rows="5" placeholder="Description"></textarea>
+          <p class="modal-form__title">Priority:</p>
+          <select class="modal-form__select">
+            <option value="high">high</option>
+            <option value="normal">normal</option>
+            <option value="low">low</option>
+          </select>
+          <div class="modal-form-actions">
+            <button type="submit" class="button" data-action="create-success">
+              Save
+            </button>
+            <button type="button" class="button" data-action="create-cancel">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="backdrop--edit">
+      <div class="modal--edit">
+        <form class="modal-form">
+          <p class="modal-form__title">Title:</p>
+          <input type="text" class="modal-form__input" placeholder="Title" />
+          <p class="modal-form__title">Description:</p>
+          <textarea class="modal-form__textarea" rows="5" placeholder="Description"></textarea>
+          <p class="modal-form__title">Priority:</p>
+          <select class="modal-form__select">
+            <option value="high">high</option>
+            <option value="normal">normal</option>
+            <option value="low">low</option>
+          </select>
+          <div class="modal-from-actions">
+            <button type="submit" class="button" data-action="edit-success">
+              Save
+            </button>
+            <button type="button" class="button" data-action="edit-cancel">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+  <footer class="footer">
+    <div class="footer-container">
+      Bezpalyi Roman
+    </div>
+  </footer>
+</body>
+
+</html>
