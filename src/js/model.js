@@ -1,5 +1,4 @@
 import shortid from "shortid";
-// import LOCALSTORAGE from "./services/localstorage";
 
 export default class Model {
   constructor(items = []) {
@@ -18,13 +17,13 @@ export default class Model {
         item.title.toLowerCase().includes(formState.inputValue.toLowerCase())
       );
     }
-    if (formState.progressValue !== "" && formState.progressValue !== "all") {
+    if (formState.progressValue !== "" && formState.progressValue !== "All") {
       this.filteredItems = this.filteredItems.filter(
-        item => item.done === formState.progressValue
+        item => item.progress === formState.progressValue
       );
     }
 
-    if (formState.priorityValue !== "" && formState.priorityValue !== "all") {
+    if (formState.priorityValue !== "" && formState.priorityValue !== "All") {
       this.filteredItems = this.filteredItems.filter(
         item => item.priority === formState.priorityValue
       );
@@ -32,8 +31,14 @@ export default class Model {
   }
 
   getItemsFromLS() {
-    this.items = LOCALSTORAGE.get("items") || [];
-    this.filteredItems = this.items;
+    if (localStorage.items) {
+      try {
+        this.items = JSON.parse(localStorage.getItem("items"));
+        // this.filteredItems = this.items;
+      } catch (e) {
+        console.error("Error while parsing.");
+      }
+    }
   }
 
   findItem(id) {
@@ -48,13 +53,13 @@ export default class Model {
     return this.selectedItemId;
   }
 
-  addItem({ title, text, priority, done }) {
+  addItem({ title, text, priority, progress }) {
     const item = {
       id: shortid(),
       text,
       title,
       priority,
-      done
+      progress
     };
     this.items.push(item);
     return item;
@@ -69,12 +74,12 @@ export default class Model {
     this.items = this.items.filter(item => item.id !== id);
   }
 
-  updateDoneStatus(id) {
+  updateProgressStatus(id) {
     const currentItem = this.findItem(id);
     const newItem =
-      currentItem.done === "open"
-        ? (currentItem.done = "done")
-        : (currentItem.done = "open");
+      currentItem.progress === "Open"
+        ? (currentItem.progress = "Done")
+        : (currentItem.progress = "Open");
 
     this.items.forEach(item => (item.id === id ? newItem : item));
   }

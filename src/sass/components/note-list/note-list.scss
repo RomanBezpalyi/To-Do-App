@@ -1,0 +1,14 @@
+.note-list {
+    width: 70%;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+@media screen and (min-width: 768px) {
+    .note-list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}

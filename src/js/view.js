@@ -1,6 +1,6 @@
-// import debounce from "debounce";
 import EventEmitter from "./services/event-emitter";
 import { Notyf } from "notyf";
+import Toastify from "toastify-js";
 
 const notyf = new Notyf();
 
@@ -18,6 +18,7 @@ export default class View extends EventEmitter {
 
     this.container = document.querySelector(".container");
     this.form = document.querySelector(".form");
+    this.main = document.querySelector(".main-content");
     this.modal = document.querySelector(".modal");
     this.editModal = document.querySelector(".modal--edit");
     this.noteList = document.querySelector(".note-list");
@@ -104,10 +105,14 @@ export default class View extends EventEmitter {
       notyf.error("Please, fill all the fields!");
     } else {
       const note = {
-        title: title.value,
-        text: text.value,
+        title:
+          title.value.length > 15
+            ? title.value.slice(0, 16) + "..."
+            : title.value,
+        text:
+          text.value.length > 15 ? text.value.slice(0, 16) + "..." : text.value,
         priority: priority.value,
-        progress: "open"
+        progress: "Open"
       };
 
       this.emit("add", note);
@@ -122,10 +127,12 @@ export default class View extends EventEmitter {
     const title = this.editModal.querySelector(".modal-form__input");
     const text = this.editModal.querySelector(".modal-form__textarea");
     const priority = this.editModal.querySelector(".modal-form__select");
-
     const note = {
-      title: title.value,
-      text: text.value,
+      title:
+        title.value.length > 15
+          ? title.value.slice(0, 16) + "..."
+          : title.value,
+      text: text.value.length > 15 ? text.value.slice(16) + "..." : text.value,
       priority: priority.value
     };
 
@@ -145,8 +152,9 @@ export default class View extends EventEmitter {
   }
 
   createNote(note) {
-    const item = this.createDOMElement("li", ["id", note.id], null, "item");
-    note.progress === "done" && item.classList.add("done");
+    const li = this.createDOMElement("li", null, null, "note-list__li");
+    const item = this.createDOMElement("div", ["id", note.id], null, "item");
+    note.progress === "Done" && item.classList.add("done");
 
     const itemTitle = this.createDOMElement(
       "h2",
@@ -214,9 +222,10 @@ export default class View extends EventEmitter {
     dropdown.append(dropdownBtnWrap);
     dropdownBtnWrap.append(buttonDone, buttonEdit, buttonDelete);
     item.append(itemTitle, text, buttonsContainer);
-    this.appendEventListners(item);
+    li.append(item);
+    this.appendEventListners(li);
 
-    return item;
+    return li;
   }
 
   appendEventListners(item) {
@@ -235,7 +244,7 @@ export default class View extends EventEmitter {
     this.emit("done", item);
   }
 
-  toggleDoneStatus(item) {
+  toggleProgressStatus(item) {
     const dropdown = item.querySelector(".dropdown-btn-wrap");
 
     item.classList.toggle("done");
@@ -286,11 +295,11 @@ export default class View extends EventEmitter {
 
   deleteNote(id) {
     const item = this.noteList.querySelector(`[data-id="${id}"]`);
-    this.noteList.removeChild(item);
+    this.noteList.removeChild(item.closest("li"));
   }
 
   openEditModal(note) {
-    this.container.classList.add("show-edit-modal");
+    this.container.classList.add("modal--edit-show");
 
     const title = this.editModal.querySelector(".modal-form__input");
     const text = this.editModal.querySelector(".modal-form__textarea");
@@ -303,15 +312,15 @@ export default class View extends EventEmitter {
 
   openCreateModal() {
     this.formInput.value = "";
-    this.container.classList.add("show-modal");
+    this.container.classList.add("modal--show");
   }
 
   closeCreateModal() {
-    this.container.classList.remove("show-modal");
+    this.container.classList.remove("modal--show");
   }
 
   closeEditModal() {
-    this.container.classList.remove("show-edit-modal");
+    this.container.classList.remove("modal--edit-show");
   }
 
   updateNote(id, { title, text, priority }) {
@@ -331,12 +340,16 @@ export default class View extends EventEmitter {
   }
 
   init(notes) {
-    // this.noteList.innerHTML = "";
+    if (this.main.firstElementChild.innerHTML === "Nothing's found")
+      this.main.firstElementChild.remove();
+    this.noteList.innerHTML = "";
     const elements = notes.map(note => this.createNote(note));
     this.noteList.append(...elements);
   }
 
   nothingsFound() {
+    if (this.main.firstElementChild.innerHTML === "Nothing's found")
+      this.main.firstElementChild.remove();
     this.noteList.innerHTML = "";
     const h2 = this.createDOMElement(
       "h2",
@@ -344,6 +357,6 @@ export default class View extends EventEmitter {
       "Nothing's found",
       "nothings-found"
     );
-    this.container.prepend(h2);
+    this.main.prepend(h2);
   }
 }

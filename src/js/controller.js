@@ -3,17 +3,17 @@ export default class Controller {
     this.model = model;
     this.view = view;
 
-    // this.model.getItemsFromLS();
-    // this.view.init(this.model.items);
+    this.model.getItemsFromLS();
+    this.view.init(this.model.items);
 
     this.view.on("add", this.addNote.bind(this));
     this.view.on("done", this.handleDone.bind(this));
     this.view.on("delete", this.deleteNote.bind(this));
     this.view.on("filter", this.handleFilter.bind(this));
     this.view.on("search-empty", this.showAllNotes.bind(this));
+    this.view.on("create-cancel", this.handleCreateCancel.bind(this));
     this.view.on("edit-start", this.handleEditStart.bind(this));
     this.view.on("edit-cancel", this.handleEditCancel.bind(this));
-    this.view.on("create-cancel", this.handleCreateCancel.bind(this));
     this.view.on("edit-success", this.handleEditSuccess.bind(this));
   }
 
@@ -31,16 +31,24 @@ export default class Controller {
   }
 
   handleDone(item) {
-    this.model.updateDoneStatus(item.dataset.id);
-    LOCALSTORAGE.set("items", this.model.items);
-    this.view.toggleDoneStatus(item);
+    this.model.updateProgressStatus(item.dataset.id);
+    try {
+      localStorage.setItem("items", JSON.stringify(this.model.items));
+    } catch (e) {
+      console.error("Error while parsing.");
+    }
+    this.view.toggleProgressStatus(item);
   }
 
   handleEditSuccess(note) {
     const id = this.model.getSelectedItemId();
 
     this.model.updateItem(id, note);
-    // LOCALSTORAGE.set("items", this.model.items);
+    try {
+      localStorage.setItem("items", JSON.stringify(this.model.items));
+    } catch (e) {
+      console.error("Error while parsing.");
+    }
     this.view.updateNote(id, note);
   }
 
@@ -61,13 +69,21 @@ export default class Controller {
 
   addNote(note) {
     this.model.addItem(note);
-    // LOCALSTORAGE.set("items", this.model.items);
+    try {
+      localStorage.setItem("items", JSON.stringify(this.model.items));
+    } catch (e) {
+      console.error("Error while parsing.");
+    }
     this.showAllNotes();
   }
 
   deleteNote(id) {
     this.model.deleteItem(id);
-    // LOCALSTORAGE.set("items", this.model.items);
+    try {
+      localStorage.setItem("items", JSON.stringify(this.model.items));
+    } catch (e) {
+      console.error("Error while parsing.");
+    }
     this.view.deleteNote(id);
   }
 }

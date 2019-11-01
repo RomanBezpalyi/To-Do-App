@@ -1,15 +1,10 @@
-// @import './base/normalize';
-// @import './base/common';
-// @import './components/container';
-// @import './components/page-header';
-// @import './components/logo';
-// @import './components/note-list';
-// @import './components/note';
-// @import './components/action';
-// @import './components/search-form';
-// @import './components/note-editor';
-// @import './components/button';
-// @import './libs/micromodal';
-
-@import './main-page.scss';
-@import './modal.scss'
+@import "./base/normalize";
+@import "./common.scss";
+@import "./components/header/header.scss";
+@import "./components/form/form.scss";
+@import "./components/form/create-btn.scss";
+@import "./components/main-content/main-content.scss";
+@import "./components/note-list/note-list.scss";
+@import "./components/modal/modal.scss";
+@import "./components/item/item.scss";
+@import "./components/footer/footer.scss";
