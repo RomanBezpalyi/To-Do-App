@@ -1,8 +1,4 @@
 import EventEmitter from "./services/event-emitter";
-import { Notyf } from "notyf";
-import Toastify from "toastify-js";
-
-const notyf = new Notyf();
 
 export default class View extends EventEmitter {
   constructor() {
@@ -73,10 +69,6 @@ export default class View extends EventEmitter {
       "click",
       this.closeEditModal.bind(this)
     );
-    // this.editSuccessBtn.addEventListener(
-    //   "click",
-    //   this.handleEditSuccess.bind(this)
-    // );
   }
 
   onInput(e) {
@@ -102,7 +94,7 @@ export default class View extends EventEmitter {
     const priority = this.modal.querySelector(".modal-form__select");
 
     if (!text.value || !title.value) {
-      notyf.error("Please, fill all the fields!");
+      alert("Please, fill all the fields!");
     } else {
       const note = {
         title:

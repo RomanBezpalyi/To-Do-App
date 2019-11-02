@@ -1,13 +1,13 @@
 {
-  "name": "notepad-js-homework",
+  "name": "mytodo",
   "version": "1.0.0",
-  "description": "Vanilla JS Notepad app",
+  "description": "Vanilla JS ToDO app",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --env.mode development --env.port 8080",
     "build": "webpack --env.mode production"
   },
-  "author": "Alexander Repeta <alexander.repeta@gmail.com>",
+  "author": "Roman Bezpalyi <romabespaly@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -36,10 +36,6 @@
     "webpackbar": "^3.1.4"
   },
   "dependencies": {
-    "handlebars": "^4.1.2",
-    "micromodal": "^0.4.0",
-    "notyf": "^3.1.0",
-    "shortid": "^2.2.15",
-    "toastify-js": "^1.6.1"
+    "shortid": "^2.2.15"
   }
 }

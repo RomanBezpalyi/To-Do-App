@@ -34,7 +34,7 @@ export default class Model {
     if (localStorage.items) {
       try {
         this.items = JSON.parse(localStorage.getItem("items"));
-        // this.filteredItems = this.items;
+        this.filteredItems = this.items;
       } catch (e) {
         console.error("Error while parsing.");
       }
